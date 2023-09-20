@@ -17,7 +17,7 @@ function createWindow()
 
     win.setResizable(false);
     win.removeMenu();
-    if (Config.SHOW_DEV_CONSOLE) win.webContents.openDevTools();
+    if (Config.START_WITH_DEV_CONSOLE) win.webContents.openDevTools();
     win.loadFile("../index.html");
 }
 
@@ -32,13 +32,23 @@ app.whenReady().then(() =>
             createWindow();
     });
 
-    if (Config.RELOAD_ENABLED)
+    if (Config.RELOAD_BUTTON_ENABLED)
     {
         globalShortcut.register(Config.RELOAD_BUTTON, () =>
         {
             win.reload();
         });
     }
+
+    if (Config.DEV_CONSOLE_BUTTON_ENABLED)
+    {
+        globalShortcut.register(Config.DEV_CONSOLE_BUTTON, () =>
+        {
+            win.webContents.toggleDevTools();
+        });
+    }
+
+    // getAudioDevices()
 });
 
 
