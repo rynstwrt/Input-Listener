@@ -6,7 +6,8 @@ const audioOutputDeviceSelect = document.querySelector("#audio-output-device-sel
 const API_NAME = "listenToAudioInputAPI";
 let isListening = false;
 let startText = stopText = "";
-const inputDeviceMap = outputDeviceMap = new Map();
+const inputDeviceMap = new Map(),
+    outputDeviceMap = new Map();
 
 
 startStopButton.addEventListener("click", () =>
@@ -29,6 +30,9 @@ async function createAudioDeviceOptions()
 
         if (isAudioInput || isAudioOutput)
         {
+            const targetMap = isAudioInput ? inputDeviceMap : outputDeviceMap;
+            targetMap.set(device.label, device.deviceId);
+
             const option = document.createElement("option");
             option.textContent = device.label;
 
