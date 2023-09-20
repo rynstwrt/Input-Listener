@@ -28,17 +28,17 @@ async function createAudioDeviceOptions()
         const isAudioInput = (device.kind === "audioinput");
         const isAudioOutput = (device.kind === "audiooutput");
 
-        if (isAudioInput || isAudioOutput)
-        {
-            const targetMap = isAudioInput ? inputDeviceMap : outputDeviceMap;
-            targetMap.set(device.label, device.deviceId);
+        if (!isAudioInput && !isAudioOutput)
+            continue;
 
-            const option = document.createElement("option");
-            option.textContent = device.label;
+        const targetMap = isAudioInput ? inputDeviceMap : outputDeviceMap;
+        targetMap.set(device.label, device.deviceId);
 
-            const targetSelect = isAudioInput ? audioInputDeviceSelect : audioOutputDeviceSelect;
-            targetSelect.appendChild(option);
-        }
+        const option = document.createElement("option");
+        option.textContent = device.label;
+
+        const targetSelect = isAudioInput ? audioInputDeviceSelect : audioOutputDeviceSelect;
+        targetSelect.appendChild(option);
     }
 }
 
