@@ -1,0 +1,20 @@
+{
+  "name": "listen-to-audio-input",
+  "version": "1.0.0",
+  "description": "A program to listen to an audio input device.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rynstwrt/Listen-To-Audio-Input.git"
+  },
+  "keywords": ["listen", "audio", "input", "electron"],
+  "author": "Ryan Stewart",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rynstwrt/Listen-To-Audio-Input/issues"
+  },
+  "homepage": "https://github.com/rynstwrt/Listen-To-Audio-Input#readme"
+}
