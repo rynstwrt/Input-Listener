@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--  META TAGS  -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <title>Listen to Audio Input</title>
+
+    <!--  STYLESHEETS  -->
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <!--  SCRIPTS  -->
+<!--    <script src="./js/Config.js" type="module"></script>-->
+    <script src="js/renderer.js" defer></script>
+</head>
+<body>
+    <main>
+        <div class="audio-device-select-section">
+            <label for="audio-input-device-select">Audio Input Device:</label>
+            <select id="audio-input-device-select"></select>
+        </div>
+
+        <div class="audio-device-select-section">
+            <label for="audio-output-device-select">Audio Output Device:</label>
+            <select id="audio-output-device-select"></select>
+        </div>
+    </main>
+
+    <button id="start-stop-button"></button>
+</body>
+</html>
