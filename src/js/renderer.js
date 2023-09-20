@@ -21,7 +21,14 @@ let stream;
 
 async function play()
 {
-    stream = await navigator.mediaDevices.getUserMedia({ audio: { deviceId: { exact: currentInputDeviceID } } });
+    stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+            deviceId: { exact: currentInputDeviceID },
+            noiseSuppression: false,
+            echoCancellation: false
+        },
+        video: false
+    });
 
     audio = new Audio();
     audio.srcObject = stream;
@@ -31,13 +38,13 @@ async function play()
 
 function stop()
 {
-    audio = undefined;
-
     stream.getTracks().forEach(track =>
     {
         if (track.readyState === 'live' && track.kind === 'audio')
             track.stop();
     });
+
+    audio = stream = undefined;
 }
 
 
@@ -63,17 +70,6 @@ async function createAudioDeviceOptions()
 
         if (!isAudioInput && !isAudioOutput)
             continue;
-
-        // if (device.label.includes("Default - "))
-        // {
-        //     if (isAudioInput)
-        //     {
-        //         currentInputDeviceID = device.deviceId;
-        //     }
-        //
-        //     // const variable = isAudioInput ? currentInputDeviceID : currentOutputDeviceID;
-        //     isAudioInput ? currentInputDeviceID = device.deviceId : currentOutputDeviceID = device.deviceId
-        // }
 
         const targetMap = isAudioInput ? inputDeviceMap : outputDeviceMap;
         targetMap.set(device.label, device.deviceId);
