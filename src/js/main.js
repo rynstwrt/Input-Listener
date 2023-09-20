@@ -1,6 +1,6 @@
 const Config = require("./Config.js");
 const path = require("path");
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, globalShortcut } = require("electron");
 
 let win;
 
@@ -12,14 +12,12 @@ function createWindow()
         height: Config.DEFAULT_WINDOW_SIZE[1],
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
-            // contextIsolation: false
         }
     });
 
-    if (Config.SHOW_DEV_CONSOLE)
-        win.webContents.openDevTools();
-
+    win.setResizable(false);
     win.removeMenu();
+    if (Config.SHOW_DEV_CONSOLE) win.webContents.openDevTools();
     win.loadFile("../index.html");
 }
 
@@ -33,6 +31,14 @@ app.whenReady().then(() =>
         if (BrowserWindow.getAllWindows().length === 0)
             createWindow();
     });
+
+    if (Config.RELOAD_ENABLED)
+    {
+        globalShortcut.register(Config.RELOAD_BUTTON, () =>
+        {
+            win.reload();
+        });
+    }
 });
 
 

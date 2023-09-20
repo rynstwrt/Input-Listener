@@ -9,25 +9,26 @@
     <title>Listen to Audio Input</title>
 
     <!--  STYLESHEETS  -->
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
 
     <!--  SCRIPTS  -->
-<!--    <script src="./js/Config.js" type="module"></script>-->
     <script src="js/renderer.js" defer></script>
 </head>
 <body>
-    <main>
-        <div class="audio-device-select-section">
-            <label for="audio-input-device-select">Audio Input Device:</label>
+    <h1>Listen to Audio Input</h1>
+
+    <div id="audio-device-selection-container">
+        <section>
+            <label for="audio-input-device-select">Audio Input Device</label>
             <select id="audio-input-device-select"></select>
-        </div>
+        </section>
 
-        <div class="audio-device-select-section">
-            <label for="audio-output-device-select">Audio Output Device:</label>
+        <section>
+            <label for="audio-output-device-select">Audio Output Device</label>
             <select id="audio-output-device-select"></select>
-        </div>
-    </main>
+        </section>
+    </div>
 
-    <button id="start-stop-button"></button>
-</body>
+    <button id="start-stop-button">Start Listening</button></body>
 </html>
