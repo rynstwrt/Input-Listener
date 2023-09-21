@@ -1,3 +1,11 @@
+$font: "Poppins", sans-serif;
+$font-w1: 400;
+$font-w2: 500;
+$font-w3: 600;
+$font-w4: 700;
+$font-w5: 800;
+$font-w6: 900;
+
 @mixin shared-font-style
 {
     font-family: "Poppins", sans-serif;

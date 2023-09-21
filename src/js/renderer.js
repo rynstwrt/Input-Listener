@@ -1,50 +1,62 @@
-const startStopButton = document.querySelector("#start-stop-button");
+const API_NAME = "listenToAudioInputAPI";
 
+const startStopButton = document.querySelector("#start-stop-button");
 const audioInputDeviceSelect = document.querySelector("#audio-input-device-select");
 const audioOutputDeviceSelect = document.querySelector("#audio-output-device-select");
-
-const API_NAME = "listenToAudioInputAPI";
 
 let isListening = false;
 
 let startText = stopText = "";
 
-const inputDeviceMap = new Map(),
-    outputDeviceMap = new Map();
-
+const inputDeviceMap = new Map(), outputDeviceMap = new Map();
 let currentInputDeviceID = "default";
 let currentOutputDeviceID = "default";
 
 let audio;
 let stream;
+let context;
 
 
 async function play()
 {
-    stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-            deviceId: { exact: currentInputDeviceID },
-            noiseSuppression: false,
-            echoCancellation: false
-        },
-        video: false
-    });
+    if (!audio)
+    {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: {
+                deviceId: { exact: currentInputDeviceID },
+                noiseSuppression: false,
+                echoCancellation: false
+            }, video: false });
 
-    audio = new Audio();
-    audio.srcObject = stream;
+        context = new AudioContext();
+        const source = context.createMediaStreamSource(stream);
+        const destination = context.createMediaStreamDestination();
+
+        source.connect(destination);
+
+        audio = new Audio();
+        audio.srcObject = stream;
+        await audio.play();
+
+        // stream = await navigator.mediaDevices.getUserMedia({
+        //     audio: {
+        //         deviceId: { exact: currentInputDeviceID },
+        //         noiseSuppression: false,
+        //         echoCancellation: false
+        //     },
+        //     video: false
+        // });
+        //
+        // audio = new Audio();
+        // audio.srcObject = stream;
+    }
+
     await audio.play();
 }
 
 
 function stop()
 {
-    stream.getTracks().forEach(track =>
-    {
-        if (track.readyState === 'live' && track.kind === 'audio')
-            track.stop();
-    });
-
-    audio = stream = undefined;
+    audio.pause();
 }
 
 
@@ -80,8 +92,6 @@ async function createAudioDeviceOptions()
         const targetSelect = isAudioInput ? audioInputDeviceSelect : audioOutputDeviceSelect;
         targetSelect.appendChild(option);
     }
-
-    console.log(currentInputDeviceID, currentOutputDeviceID);
 }
 
 
@@ -96,10 +106,15 @@ async function createAudioDeviceOptions()
 
         isInput ? currentInputDeviceID = id : currentOutputDeviceID = id;
 
-        stop();
-        await play();
+        if (!isInput)
+        {
+            console.log(id);
+            await context.setSinkId(id);
+        }
 
-        console.log(currentInputDeviceID, currentOutputDeviceID);
+        await stop();
+        stream = audio = undefined;
+        if (isListening) await play();
     });
 });
 
